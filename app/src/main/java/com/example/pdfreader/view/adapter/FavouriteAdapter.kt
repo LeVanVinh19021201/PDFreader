@@ -3,17 +3,19 @@ package com.example.pdfreader.view.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.pdfreader.R
 import com.example.pdfreader.database.DataFile
 import com.example.pdfreader.databinding.LayoutItemHomeBinding
 import com.example.pdfreader.view.callback.ICallbackAllFile
-import com.example.pdfreader.view.callback.TagAllFile
+import com.example.pdfreader.view.callback.ICallbackFavourite
 
-class AllfileAdapter(
+
+class FavouriteAdapter(
     private val listData: ArrayList<DataFile>,
-    private val callback: ICallbackAllFile,
+    private val callback: ICallbackFavourite,
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return AllfileViewHolder(
+        return FavouriteViewHolder(
             LayoutItemHomeBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
@@ -27,26 +29,17 @@ class AllfileAdapter(
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        if (holder is AllfileViewHolder) {
+        if (holder is FavouriteViewHolder) {
             holder.bind(listData[position], position)
         }
     }
 
-    inner class AllfileViewHolder(val binding: LayoutItemHomeBinding) :
+    inner class FavouriteViewHolder(val binding: LayoutItemHomeBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(data: DataFile, position: Int) {
             binding.tvTitle.text = data.id.toString()
 
-            if(data.isFavourite==1){
-                binding.tvTitle.text = "Vinhh"
-            }
-            binding.ivFavourite.setOnClickListener {
-                callback.callbackALlFile(TagAllFile.ON_CLICK_FAVOURITE,data)
-            }
-
-            binding.root.setOnClickListener {
-                callback.callbackALlFile(TagAllFile.ON_CLICK_OPEN_FILE,data)
-            }
+            binding.ivFavourite.setImageResource(R.drawable.ic_favourite_reading_checked)
         }
     }
 }

@@ -9,10 +9,11 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class DataFile(
     @PrimaryKey(autoGenerate = true)
-    val id: Int=0,
-    val path: String = "",
-    val isFavourite: Boolean = false,
-    val timeClickRecent: Long = 0L,
-    val timeClickFavourite: Long = 0L,
-    val timeOpenFile: Long = 0L,
+    var id: Int = 0,
+    var path: String = "",
+    var isFavourite: Int = 1,
+    var isRecentFile: Int = 0,
+    var timeOpenRecent: Long = 0L,
+    var timeClickFavourite: Long = 0L,
+    var timeOpenFile: Long = 0L,
 ) : Parcelable

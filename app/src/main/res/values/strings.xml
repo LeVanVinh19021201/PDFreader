@@ -2,4 +2,7 @@
     <string name="app_name">PdfReader</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="tab_str_allfile">All Files</string>
+    <string name="tab_str_recent">Recent</string>
+    <string name="tab_str_bookmark">Bookmark</string>
 </resources>

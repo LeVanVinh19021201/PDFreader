@@ -2,47 +2,68 @@ package com.example.pdfreader.task
 
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.content.ContentResolver
-import android.content.Context
 import android.database.Cursor
-import android.os.AsyncTask
 import android.provider.MediaStore
-import android.util.Log
 import com.example.pdfreader.database.DataFile
 import java.io.File
+import java.util.Collections
+import java.util.concurrent.ExecutorService
+import java.util.concurrent.Executors
+import java.util.concurrent.TimeUnit
 
 @SuppressLint("StaticFieldLeak")
-class LoadPdfFile(private val activity: Activity, private var callback: ICallbackLoadFile) :
-    AsyncTask<Void?, Void?, Void?>() {
-    private val listData: ArrayList<DataFile> = ArrayList()
+class LoadPdfFileTask(private val activity: Activity, private var callback: ICallbackLoadFile?) {
+    private var listData: MutableList<DataFile>? = null
+    var pool: ExecutorService = Executors.newCachedThreadPool()
 
-    override fun doInBackground(vararg voids: Void?): Void? {
-        val contentResolver: ContentResolver = activity.contentResolver
-        val uri = MediaStore.Files.getContentUri("external")
-        val projection = arrayOf(
-            MediaStore.Files.FileColumns.DATA,
-            MediaStore.Files.FileColumns.MIME_TYPE
-        )
-        val selection = "${MediaStore.Files.FileColumns.MIME_TYPE}='application/pdf'"
-
-        val cursor = contentResolver.query(uri, projection, selection, null, null)
-
-        cursor?.use { c ->
-            val pathIndex = c.getColumnIndexOrThrow(MediaStore.Files.FileColumns.DATA)
-
-            while (c.moveToNext()) {
-                val path = c.getString(pathIndex)
-                listData.add(DataFile(path = path))
+    fun execute() {
+        Thread {
+            listData = Collections.synchronizedList(ArrayList())
+            executeLoadFile()
+            activity.runOnUiThread {
+                if (callback != null) {
+                    callback!!.callbackLoadFile(TagLoadfile.LOAD_FILE_SUCCESS, ArrayList(listData))
+                }
+                callback = null
             }
-        }
-        cursor?.close()
-        return null
+        }.start()
     }
 
-    override fun onPostExecute(aVoid: Void?) {
-        super.onPostExecute(aVoid)
-        if (callback != null) {
-            callback.callbackLoadFile(TagLoadfile.LOAD_FILE_SUCCESS, listData)
+    @SuppressLint("Recycle")
+    private fun executeLoadFile() {
+        val table = MediaStore.Files.getContentUri("external")
+        val selection = "_data LIKE '%.pdf'"
+        var cursor: Cursor? = null
+        try {
+            cursor = activity.contentResolver.query(table, null, selection, null, "date_added DESC")
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        try {
+            if (cursor == null || cursor.count <= 0 || !cursor.moveToFirst()) {
+                return
+            }
+            val data = cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns.DATA)
+            do {
+                val path = cursor.getString(data)
+                val file = File(path)
+                if (file.length() == 0L) {
+                    continue
+                }
+                pool.submit {
+                    listData?.add(DataFile(id = 0, path = path))
+                }
+            } while (cursor.moveToNext())
+
+            try {
+                pool.awaitTermination(1, TimeUnit.SECONDS)
+            } catch (e: InterruptedException) {
+                e.printStackTrace()
+            }
+            pool.shutdown()
+
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 }
