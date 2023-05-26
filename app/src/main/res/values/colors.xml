@@ -5,4 +5,5 @@
     <color name="color_sub_tab">#D6D6D6</color>
     <color name="color_primary">#FF0000</color>
     <color name="transparent">#00FFFFFF</color>
+    <color name="color_background_pdf">#ffe0e0e0</color>
 </resources>

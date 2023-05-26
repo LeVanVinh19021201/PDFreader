@@ -5,6 +5,7 @@ import androidx.fragment.app.viewModels
 import com.example.pdfreader.base.BaseFragment
 import com.example.pdfreader.database.DataFile
 import com.example.pdfreader.databinding.FragmentAllFileBinding
+import com.example.pdfreader.helper.NavigationManager
 import com.example.pdfreader.helper.PreferenceHelper
 import com.example.pdfreader.task.ICallbackLoadFile
 import com.example.pdfreader.task.LoadPdfFileTask
@@ -91,16 +92,17 @@ class AllFileFragment : BaseFragment<FragmentAllFileBinding>(FragmentAllFileBind
             }
 
             TagAllFile.ON_CLICK_OPEN_FILE -> {
-                val data = DataFile(
-                    id = data.id,
-                    path = data.path,
-                    isFavourite = data.isFavourite,
-                    isRecentFile = 1,
-                    timeOpenRecent = data.timeOpenRecent,
-                    timeClickFavourite = data.timeClickFavourite,
-                    timeOpenFile = data.timeOpenFile
-                )
-                viewModel.updateDataFile(data)
+//                val data = DataFile(
+//                    id = data.id,
+//                    path = data.path,
+//                    isFavourite = data.isFavourite,
+//                    isRecentFile = 1,
+//                    timeOpenRecent = data.timeOpenRecent,
+//                    timeClickFavourite = data.timeClickFavourite,
+//                    timeOpenFile = data.timeOpenFile
+//                )
+//                viewModel.updateDataFile(data)
+                NavigationManager.getInstance().openFragment(PdfReaderFragment.newInstance(data.path))
             }
         }
     }

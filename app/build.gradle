@@ -12,11 +12,11 @@ def apikeyPropertiesFile = rootProject.file("apikey.properties")
 def apikeyProperties = new Properties()
 apikeyProperties.load(new FileInputStream(apikeyPropertiesFile))
 android {
-    compileSdk 31
+    compileSdk 32
     defaultConfig {
         applicationId "com.reader.pdfreader"
         minSdk 21
-        targetSdk 31
+        targetSdk 32
         versionCode 1
         versionName "1.0"
 
@@ -132,4 +132,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics'
     implementation 'com.google.firebase:firebase-config'
     implementation 'com.google.firebase:firebase-messaging'
+
+    implementation project(path: ':MTGLibs')
+    implementation project(path: ':office_reader')
 }

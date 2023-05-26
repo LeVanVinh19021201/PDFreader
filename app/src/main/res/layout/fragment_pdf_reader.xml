@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white"
+    android:clickable="true"
+    android:focusable="true"
+    tools:context=".view.fragment.PdfReaderFragment">
+
+    <include
+        android:id="@+id/tool_bar_doc"
+        layout="@layout/layout_tool_bar_doc" />
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <com.github.barteksc.pdfviewer.PDFView
+            android:id="@+id/pdfView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/color_background_pdf" />
+
+        <ProgressBar
+            android:id="@+id/progressOpenPdf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true" />
+
+        <TextView
+            android:id="@+id/tvPdfPageNumbers"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
+            android:layout_marginBottom="@dimen/_8sdp"
+            android:background="@drawable/background_number_page"
+            android:backgroundTint="#FDF1F1"
+            android:gravity="center_horizontal"
+            android:paddingLeft="8dp"
+            android:paddingTop="4dp"
+            android:paddingRight="8dp"
+            android:paddingBottom="4dp"
+            android:textColor="#000"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="1"
+        android:orientation="horizontal">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/img_horizontal"
+            android:layout_width="0dp"
+            android:layout_weight="0.25"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/_5sdp"
+            android:scaleType="center"
+            app:srcCompat="@drawable/ic_horizontal" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/img_jump"
+            android:layout_width="0dp"
+            android:layout_weight="0.25"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/_5sdp"
+            android:scaleType="center"
+            app:srcCompat="@drawable/ic_jump" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/img_start_doc"
+            android:layout_width="0dp"
+            android:layout_weight="0.25"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/_5sdp"
+            android:scaleType="center"
+            app:srcCompat="@drawable/ic_start_doc" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/img_moon"
+            android:layout_width="0dp"
+            android:layout_weight="0.25"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/_5sdp"
+            android:scaleType="center"
+            app:srcCompat="@drawable/ic_moon" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</androidx.appcompat.widget.LinearLayoutCompat>

@@ -5,7 +5,6 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
-import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -15,8 +14,6 @@ import com.common.control.utils.PermissionUtils
 import com.example.pdfreader.R
 import com.example.pdfreader.databinding.ActivityMainBinding
 import com.example.pdfreader.helper.NavigationManager
-import com.example.pdfreader.helper.PreferenceHelper
-import com.example.pdfreader.utils.Const.IS_FIRST_APP
 import com.example.pdfreader.utils.DenyPermissionDialog
 import com.example.pdfreader.utils.DialogUtils
 import dagger.hilt.android.AndroidEntryPoint
@@ -43,6 +40,14 @@ class MainActivity : AppCompatActivity() {
 
                     override fun onPermissionDenied() {
                         showDenyDialog(false)
+                    }
+
+                    override fun onPressDenied() {
+
+                    }
+
+                    override fun onPressGrant() {
+
                     }
                 }, Manifest.permission.READ_EXTERNAL_STORAGE)
             } else {
