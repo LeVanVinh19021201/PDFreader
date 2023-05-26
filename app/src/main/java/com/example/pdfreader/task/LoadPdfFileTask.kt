@@ -5,6 +5,9 @@ import android.app.Activity
 import android.database.Cursor
 import android.provider.MediaStore
 import com.example.pdfreader.database.DataFile
+import com.example.pdfreader.helper.PreferenceHelper
+import com.example.pdfreader.utils.Const
+import com.example.pdfreader.view.viewmodel.AppViewModel
 import java.io.File
 import java.util.Collections
 import java.util.concurrent.ExecutorService
@@ -12,7 +15,10 @@ import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
 
 @SuppressLint("StaticFieldLeak")
-class LoadPdfFileTask(private val activity: Activity, private var callback: ICallbackLoadFile?) {
+class LoadPdfFileTask(
+    private val activity: Activity,
+    private val viewModel: AppViewModel
+) {
     private var listData: MutableList<DataFile>? = null
     var pool: ExecutorService = Executors.newCachedThreadPool()
 
@@ -21,10 +27,8 @@ class LoadPdfFileTask(private val activity: Activity, private var callback: ICal
             listData = Collections.synchronizedList(ArrayList())
             executeLoadFile()
             activity.runOnUiThread {
-                if (callback != null) {
-                    callback!!.callbackLoadFile(TagLoadfile.LOAD_FILE_SUCCESS, ArrayList(listData))
-                }
-                callback = null
+                viewModel.addAllData(ArrayList(listData))
+                PreferenceHelper.getInstance().setValue(Const.IS_ADD_DATA, true)
             }
         }.start()
     }

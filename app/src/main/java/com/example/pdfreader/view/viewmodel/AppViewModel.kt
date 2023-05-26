@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.pdfreader.database.DataFile
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -14,7 +15,6 @@ import javax.inject.Inject
 class AppViewModel @Inject constructor(private val repo: AppRepository) : ViewModel() {
     private val _state = MutableLiveData<State>()
     val state = _state
-
     fun getALlData() {
         viewModelScope.launch {
             _state.value = State.response(status = State.Status.GET_ALl_LOADING)
@@ -93,6 +93,14 @@ class AppViewModel @Inject constructor(private val repo: AppRepository) : ViewMo
     fun deleteFile(data: DataFile) {
         viewModelScope.launch {
             repo.deleteFile(data)
+        }
+    }
+
+    fun addAllData(data :ArrayList<DataFile>){
+        viewModelScope.launch(Dispatchers.IO) {
+            data.forEach{
+                repo.addFile(it)
+            }
         }
     }
 }

@@ -20,6 +20,7 @@ import com.example.pdfreader.helper.PreferenceHelper
 import com.example.pdfreader.task.ICallbackLoadFile
 import com.example.pdfreader.task.LoadPdfFileTask
 import com.example.pdfreader.task.TagLoadfile
+import com.example.pdfreader.utils.Const
 import com.example.pdfreader.utils.Const.IS_ADD_DATA
 import com.example.pdfreader.utils.DenyPermissionDialog
 import com.example.pdfreader.utils.DialogUtils
@@ -99,18 +100,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun getDataDevice() {
-        loadPdfFile = LoadPdfFileTask(this, object : ICallbackLoadFile {
-            override fun callbackLoadFile(tag: TagLoadfile, data: ArrayList<DataFile>) {
-                val listData = ArrayList<DataFile>()
-                listData.addAll(data)
-                if (PreferenceHelper.getInstance().get(IS_ADD_DATA, false)) {
-                    listData.forEach {
-                        viewModel.addFile(it)
-                    }
-                    PreferenceHelper.getInstance().setValue(IS_ADD_DATA, true)
-                }
-            }
-        })
-        loadPdfFile?.execute()
+//        if(PreferenceHelper.getInstance().get(IS_ADD_DATA, false)){
+            loadPdfFile = LoadPdfFileTask(this,viewModel)
+            loadPdfFile?.execute()
+//        }
     }
 }
