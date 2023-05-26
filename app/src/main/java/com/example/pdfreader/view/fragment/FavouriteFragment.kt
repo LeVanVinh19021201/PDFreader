@@ -41,7 +41,8 @@ class FavouriteFragment : BaseFragment<FragmentFavouriteBinding>(FragmentFavouri
                 }
 
                 State.Status.GET_FAVOURITE_FAIL->{
-
+                    listData.clear()
+                    adapter?.notifyDataSetChanged()
                 }
             }
         }

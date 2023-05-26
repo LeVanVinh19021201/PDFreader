@@ -3,6 +3,7 @@ package com.example.pdfreader.view.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.pdfreader.R
 import com.example.pdfreader.database.DataFile
 import com.example.pdfreader.databinding.LayoutItemPdfBinding
 import com.example.pdfreader.utils.Const
@@ -38,10 +39,16 @@ class RecentAdapter(
     inner class RecentViewHolder(val binding: LayoutItemPdfBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(data: DataFile, position: Int) {
+
             binding.tvNameFile.text = File(data.path).name
             val formatter = SimpleDateFormat(Const.PATTERN_FORMAT_TIME_HOME, Locale.getDefault())
             val dateString = formatter.format(File(data.path).lastModified())
             binding.tvTimeFile.text = dateString
+            if (data.isFavourite == 1) {
+                binding.imgStar.setImageResource(R.drawable.ic_star)
+            } else {
+                binding.imgStar.setImageResource(R.drawable.ic_star_un_select)
+            }
         }
     }
 }

@@ -123,6 +123,8 @@ dependencies {
     // event bus
     implementation "org.greenrobot:eventbus:3.3.1"
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.0.0'
+    //spinkit loading
+    implementation 'com.github.ybq:Android-SpinKit:1.4.0'
     //
     implementation 'com.github.MTGLibs:CommonLibs:1.2.2'
     implementation platform('com.google.firebase:firebase-bom:28.0.1')

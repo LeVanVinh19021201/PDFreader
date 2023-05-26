@@ -5,33 +5,25 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
+import android.util.Log
 import android.view.View
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.common.control.dialog.PermissionSystemDialog
 import com.common.control.interfaces.PermissionCallback
 import com.common.control.utils.PermissionUtils
 import com.example.pdfreader.R
-import com.example.pdfreader.database.DataFile
 import com.example.pdfreader.databinding.ActivityMainBinding
 import com.example.pdfreader.helper.NavigationManager
 import com.example.pdfreader.helper.PreferenceHelper
-import com.example.pdfreader.task.ICallbackLoadFile
-import com.example.pdfreader.task.LoadPdfFileTask
-import com.example.pdfreader.task.TagLoadfile
-import com.example.pdfreader.utils.Const
-import com.example.pdfreader.utils.Const.IS_ADD_DATA
+import com.example.pdfreader.utils.Const.IS_FIRST_APP
 import com.example.pdfreader.utils.DenyPermissionDialog
 import com.example.pdfreader.utils.DialogUtils
-import com.example.pdfreader.view.viewmodel.AppViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    private var loadPdfFile: LoadPdfFileTask? = null
-    private val viewModel: AppViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -45,9 +37,8 @@ class MainActivity : AppCompatActivity() {
 
         if (!checkPermission()) {
             if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.Q) {
-                PermissionSystemDialog.start(this, object : PermissionCallback {
+                PermissionSystemDialog.start(this@MainActivity, object : PermissionCallback {
                     override fun onPermissionGranted() {
-                        getDataDevice()
                     }
 
                     override fun onPermissionDenied() {
@@ -58,7 +49,6 @@ class MainActivity : AppCompatActivity() {
                 DialogUtils.showDialogPermission(this@MainActivity)
             }
         } else {
-            getDataDevice()
         }
     }
 
@@ -67,7 +57,7 @@ class MainActivity : AppCompatActivity() {
             return Environment.isExternalStorageManager()
         } else {
             return ContextCompat.checkSelfPermission(
-                this,
+                this@MainActivity,
                 Manifest.permission.READ_EXTERNAL_STORAGE
             ) == PackageManager.PERMISSION_GRANTED
         }
@@ -77,13 +67,13 @@ class MainActivity : AppCompatActivity() {
         if (!isCamera) {
             if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
                 if (!PermissionUtils.permissionGranted(
-                        this,
+                        this@MainActivity,
                         Manifest.permission.READ_EXTERNAL_STORAGE
                     ) && !shouldShowRequestPermissionRationale(
                         Manifest.permission.READ_EXTERNAL_STORAGE
                     )
                 ) {
-                    DenyPermissionDialog.start(this, "file")
+                    DenyPermissionDialog.start(this@MainActivity, "file")
                 }
             }
             return
@@ -91,18 +81,11 @@ class MainActivity : AppCompatActivity() {
 
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
             if (!PermissionUtils.permissionGranted(
-                    this, Manifest.permission.CAMERA
+                    this@MainActivity, Manifest.permission.CAMERA
                 ) && !shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)
             ) {
-                DenyPermissionDialog.start(this, "camera")
+                DenyPermissionDialog.start(this@MainActivity, "camera")
             }
         }
-    }
-
-    private fun getDataDevice() {
-//        if(PreferenceHelper.getInstance().get(IS_ADD_DATA, false)){
-            loadPdfFile = LoadPdfFileTask(this,viewModel)
-            loadPdfFile?.execute()
-//        }
     }
 }

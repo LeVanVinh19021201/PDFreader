@@ -5,8 +5,6 @@ import android.app.Activity
 import android.database.Cursor
 import android.provider.MediaStore
 import com.example.pdfreader.database.DataFile
-import com.example.pdfreader.helper.PreferenceHelper
-import com.example.pdfreader.utils.Const
 import com.example.pdfreader.view.viewmodel.AppViewModel
 import java.io.File
 import java.util.Collections
@@ -17,6 +15,7 @@ import java.util.concurrent.TimeUnit
 @SuppressLint("StaticFieldLeak")
 class LoadPdfFileTask(
     private val activity: Activity,
+    private var callback: ICallbackLoadFile?,
     private val viewModel: AppViewModel
 ) {
     private var listData: MutableList<DataFile>? = null
@@ -27,14 +26,19 @@ class LoadPdfFileTask(
             listData = Collections.synchronizedList(ArrayList())
             executeLoadFile()
             activity.runOnUiThread {
-                viewModel.addAllData(ArrayList(listData))
-                PreferenceHelper.getInstance().setValue(Const.IS_ADD_DATA, true)
+                if (callback != null) {
+                    callback?.callbackLoadFile(TagLoadfile.LOAD_FILE_SUCCESS, ArrayList(listData))
+                    viewModel.addAllData(ArrayList(listData))
+
+                }
+                callback = null
             }
         }.start()
     }
 
     @SuppressLint("Recycle")
     private fun executeLoadFile() {
+        var id = 1
         val table = MediaStore.Files.getContentUri("external")
         val selection = "_data LIKE '%.pdf'"
         var cursor: Cursor? = null
@@ -55,7 +59,8 @@ class LoadPdfFileTask(
                     continue
                 }
                 pool.submit {
-                    listData?.add(DataFile(id = 0, path = path))
+                    listData?.add(DataFile(id = id, path = path))
+                    id++
                 }
             } while (cursor.moveToNext())
 

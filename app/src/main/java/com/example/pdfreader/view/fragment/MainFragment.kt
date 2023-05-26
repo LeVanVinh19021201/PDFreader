@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Environment
 import android.util.Log
+import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import com.example.pdfreader.R
@@ -17,6 +18,7 @@ import com.example.pdfreader.task.LoadPdfFileTask
 import com.example.pdfreader.task.TagLoadfile
 import com.example.pdfreader.view.adapter.ViewPagerAdapter
 import com.example.pdfreader.view.viewmodel.AppViewModel
+import com.example.pdfreader.view.viewmodel.State
 import com.example.pdfreader.view.widget.CustomTab
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
@@ -25,6 +27,9 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MainFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::inflate) {
     private lateinit var pagerAdapter: ViewPagerAdapter
+    private val viewModel: AppViewModel by viewModels()
+    private val listData: ArrayList<DataFile> = ArrayList()
+
     private val listText = listOf(
         R.string.tab_str_allfile,
         R.string.tab_str_recent,
@@ -32,7 +37,7 @@ class MainFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     )
 
     private val listIcon = listOf(
-        R.drawable.ic_allfile_selected,
+        R.drawable.ic_home_unselect,
         R.drawable.ic_recent,
         R.drawable.ic_bookmark
     )
@@ -45,7 +50,6 @@ class MainFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         binding.pager.adapter = pagerAdapter
         binding.pager.offscreenPageLimit = 3
         TabLayoutMediator(binding.tabLayout, binding.pager, false, false) { tab, position ->
-            Log.d("vvvvvvv", position.toString())
             tab.customView = getCustomViewTab(
                 ContextCompat.getDrawable(requireContext(), listIcon[position]),
                 getString(listText[position])
@@ -56,15 +60,15 @@ class MainFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 when (tab?.position) {
                     0 -> {
-//                        AllFileFragment().getData()
+                        (pagerAdapter.getFragment(0) as AllFileFragment).getData()
                     }
 
                     1 -> {
-//                        RecentFragment().getData()
+                        (pagerAdapter.getFragment(1) as RecentFragment).getData()
                     }
 
                     2 -> {
-//                        FavouriteFragment().getData()
+                        (pagerAdapter.getFragment(2) as FavouriteFragment).getData()
                     }
                 }
             }
@@ -77,6 +81,7 @@ class MainFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             }
         })
     }
+
     fun checkPermission(): Boolean {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             return Environment.isExternalStorageManager()
@@ -100,10 +105,18 @@ class MainFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     }
 
     override fun initObserver() {
-
+        viewModel.state.observe(viewLifecycleOwner) {
+            when (it.status) {
+                State.Status.GET_ALl_SUCCESS -> {
+                    val data = it.data as ArrayList<DataFile>
+                    listData.clear()
+                    listData.addAll(data)
+                }
+            }
+        }
     }
 
     override fun getData() {
-
+        viewModel.getALlData()
     }
 }
