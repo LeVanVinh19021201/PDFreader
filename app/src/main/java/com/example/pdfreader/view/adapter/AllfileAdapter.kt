@@ -10,6 +10,7 @@ import com.example.pdfreader.utils.Const.PATTERN_FORMAT_TIME_HOME
 import com.example.pdfreader.view.callback.ICallbackAllFile
 import com.example.pdfreader.view.callback.TagAllFile
 import java.io.File
+import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -45,6 +46,14 @@ class AllfileAdapter(
             val dateString = formatter.format(File(data.path).lastModified())
             binding.tvTimeFile.text = dateString
 
+            val file = File(data.path)
+            val fileSizeInBytes = file.length()
+            val fileSizeInKB = fileSizeInBytes / 1024.0
+            val fileSizeInMB = fileSizeInKB / 1024.0
+            val decimalFormat = DecimalFormat("#.##")
+            val roundedNumber = decimalFormat.format(fileSizeInMB)
+            binding.tvSize.text = roundedNumber.toString() + "MB"
+
             if (data.isFavourite == 1) {
                 binding.imgStar.setImageResource(R.drawable.ic_star)
             } else {
@@ -52,11 +61,11 @@ class AllfileAdapter(
             }
 
             binding.imgStar.setOnClickListener {
-                if(data.isFavourite==0){
-                    data.isFavourite=1
+                if (data.isFavourite == 0) {
+                    data.isFavourite = 1
                     callback.callbackALlFile(TagAllFile.ON_CLICK_FAVOURITE, data)
-                }else{
-                    data.isFavourite=0
+                } else {
+                    data.isFavourite = 0
                     callback.callbackALlFile(TagAllFile.ON_CLICK_FAVOURITE, data)
                 }
                 notifyItemChanged(position)

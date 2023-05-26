@@ -2,6 +2,8 @@ package com.example.pdfreader.view.fragment
 
 import androidx.fragment.app.viewModels
 import com.example.pdfreader.base.BaseFragment
+import com.example.pdfreader.common.hide
+import com.example.pdfreader.common.show
 import com.example.pdfreader.database.DataFile
 import com.example.pdfreader.databinding.FragmentFavouriteBinding
 import com.example.pdfreader.view.adapter.FavouriteAdapter
@@ -34,6 +36,7 @@ class FavouriteFragment : BaseFragment<FragmentFavouriteBinding>(FragmentFavouri
 
                 }
                 State.Status.GET_FAVOURITE_SUCCESS ->{
+                    binding.imgNoData.hide()
                     val data =it.data as ArrayList<DataFile>?
                     listData.clear()
                     data?.let { it1 -> listData.addAll(it1) }
@@ -43,6 +46,7 @@ class FavouriteFragment : BaseFragment<FragmentFavouriteBinding>(FragmentFavouri
                 State.Status.GET_FAVOURITE_FAIL->{
                     listData.clear()
                     adapter?.notifyDataSetChanged()
+                    binding.imgNoData.show()
                 }
             }
         }

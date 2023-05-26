@@ -2,9 +2,10 @@ package com.example.pdfreader.view.fragment
 
 import androidx.fragment.app.viewModels
 import com.example.pdfreader.base.BaseFragment
+import com.example.pdfreader.common.hide
+import com.example.pdfreader.common.show
 import com.example.pdfreader.database.DataFile
 import com.example.pdfreader.databinding.FragmentRecentBinding
-import com.example.pdfreader.view.adapter.FavouriteAdapter
 import com.example.pdfreader.view.adapter.RecentAdapter
 import com.example.pdfreader.view.callback.ICallbackRecent
 import com.example.pdfreader.view.callback.TagAllFile
@@ -36,6 +37,7 @@ class RecentFragment : BaseFragment<FragmentRecentBinding>(FragmentRecentBinding
 
                 }
                 State.Status.GET_RECENT_SUCCESS ->{
+                    binding.imgNoData.hide()
                     val data =it.data as ArrayList<DataFile>?
                     listData.clear()
                     data?.let { it1 -> listData.addAll(it1) }
@@ -43,7 +45,9 @@ class RecentFragment : BaseFragment<FragmentRecentBinding>(FragmentRecentBinding
                 }
 
                 State.Status.GET_RECENT_FAIL->{
-
+                    listData.clear()
+                    adapter?.notifyDataSetChanged()
+                    binding.imgNoData.show()
                 }
             }
         }
