@@ -16,9 +16,11 @@ import com.example.pdfreader.R
 import com.example.pdfreader.database.DataFile
 import com.example.pdfreader.databinding.ActivityMainBinding
 import com.example.pdfreader.helper.NavigationManager
+import com.example.pdfreader.helper.PreferenceHelper
 import com.example.pdfreader.task.ICallbackLoadFile
 import com.example.pdfreader.task.LoadPdfFileTask
 import com.example.pdfreader.task.TagLoadfile
+import com.example.pdfreader.utils.Const.IS_ADD_DATA
 import com.example.pdfreader.utils.DenyPermissionDialog
 import com.example.pdfreader.utils.DialogUtils
 import com.example.pdfreader.view.viewmodel.AppViewModel
@@ -101,8 +103,11 @@ class MainActivity : AppCompatActivity() {
             override fun callbackLoadFile(tag: TagLoadfile, data: ArrayList<DataFile>) {
                 val listData = ArrayList<DataFile>()
                 listData.addAll(data)
-                listData.forEach {
-                    viewModel.addFile(it)
+                if (PreferenceHelper.getInstance().get(IS_ADD_DATA, false)) {
+                    listData.forEach {
+                        viewModel.addFile(it)
+                    }
+                    PreferenceHelper.getInstance().setValue(IS_ADD_DATA, true)
                 }
             }
         })
