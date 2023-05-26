@@ -2,42 +2,72 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:foreground="?android:attr/selectableItemBackground"
-    android:orientation="horizontal">
-
-
-    <androidx.appcompat.widget.AppCompatImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:scaleType="center"
-        app:srcCompat="@drawable/ic_pdf" />
+    android:orientation="vertical"
+    android:layout_marginStart="@dimen/_10sdp"
+    android:layout_marginEnd="@dimen/_10sdp"
+    android:foreground="?android:attr/selectableItemBackground">
 
     <androidx.appcompat.widget.LinearLayoutCompat
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingVertical="@dimen/_12sdp">
 
-        <androidx.appcompat.widget.AppCompatTextView
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/img_avatar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="How to convert PDF File"
-            android:textColor="#3B3B3B"
-            android:textSize="@dimen/_12sdp"
-            android:textStyle="bold" />
+            android:scaleType="center"
+            app:srcCompat="@drawable/ic_pdf" />
 
-        <androidx.appcompat.widget.AppCompatTextView
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_6sdp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_name_file"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="How to convert PDF File"
+                android:textColor="#3B3B3B"
+                android:textSize="@dimen/_12sdp"
+                android:textStyle="bold" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_time_file"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="04.07.2022 05:15 PM"
+                android:textColor="#818181"
+                android:textFontWeight="600"
+                android:textSize="@dimen/_9sdp" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/img_star"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="04.07.2022 05:15 PM"
-            android:textColor="#818181"
-            android:textFontWeight="600"
-            android:textSize="@dimen/_9sdp" />
+            android:padding="@dimen/_5sdp"
+            android:scaleType="center"
+            app:srcCompat="@drawable/ic_star_un_select" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/img_more"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/_5sdp"
+            android:scaleType="center"
+            app:srcCompat="@drawable/ic_more" />
     </androidx.appcompat.widget.LinearLayoutCompat>
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        app:srcCompat="@drawable/ic_more" />
-
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#D6D6D6"
+        android:layout_marginStart="@dimen/_10sdp"
+        android:layout_marginEnd="@dimen/_10sdp"/>
 </androidx.appcompat.widget.LinearLayoutCompat>

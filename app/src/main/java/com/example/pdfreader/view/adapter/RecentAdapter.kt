@@ -3,18 +3,21 @@ package com.example.pdfreader.view.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.pdfreader.R
 import com.example.pdfreader.database.DataFile
-import com.example.pdfreader.databinding.LayoutItemHomeBinding
+import com.example.pdfreader.databinding.LayoutItemPdfBinding
+import com.example.pdfreader.utils.Const
 import com.example.pdfreader.view.callback.ICallbackRecent
+import java.io.File
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 class RecentAdapter(
     private val listData: ArrayList<DataFile>,
     private val callback: ICallbackRecent
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return FavouriteViewHolder(
-            LayoutItemHomeBinding.inflate(
+        return RecentViewHolder(
+            LayoutItemPdfBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
                 false
@@ -27,16 +30,18 @@ class RecentAdapter(
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        if (holder is FavouriteViewHolder) {
+        if (holder is RecentViewHolder) {
             holder.bind(listData[position], position)
         }
     }
 
-    inner class FavouriteViewHolder(val binding: LayoutItemHomeBinding) :
+    inner class RecentViewHolder(val binding: LayoutItemPdfBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(data: DataFile, position: Int) {
-            binding.tvTitle.text = data.id.toString()
-            binding.ivFavourite.setImageResource(R.drawable.ic_favourite_reading_checked)
+            binding.tvNameFile.text = File(data.path).name
+            val formatter = SimpleDateFormat(Const.PATTERN_FORMAT_TIME_HOME, Locale.getDefault())
+            val dateString = formatter.format(File(data.path).lastModified())
+            binding.tvTimeFile.text = dateString
         }
     }
 }

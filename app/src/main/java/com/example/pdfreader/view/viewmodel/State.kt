@@ -13,6 +13,14 @@ data class State(
     enum class Status {
        GET_ALl_SUCCESS,
        GET_ALl_LOADING,
-       GET_ALl_FAIL
+       GET_ALl_FAIL,
+
+        GET_RECENT_SUCCESS,
+        GET_RECENT_LOADING,
+        GET_RECENT_FAIL,
+
+        GET_FAVOURITE_SUCCESS,
+        GET_FAVOURITE_LOADING,
+        GET_FAVOURITE_FAIL
     }
 }

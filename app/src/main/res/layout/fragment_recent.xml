@@ -7,11 +7,17 @@
     android:orientation="vertical"
     tools:context=".view.fragment.RecentFragment">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_recent"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/refresh_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+        android:layout_height="wrap_content">
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_recent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </androidx.appcompat.widget.LinearLayoutCompat>

@@ -4,6 +4,8 @@ plugins {
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
     id 'kotlin-parcelize'
+    id 'com.google.gms.google-services'
+    id 'com.google.firebase.crashlytics'
 }
 
 def apikeyPropertiesFile = rootProject.file("apikey.properties")
@@ -12,7 +14,7 @@ apikeyProperties.load(new FileInputStream(apikeyPropertiesFile))
 android {
     compileSdk 31
     defaultConfig {
-        applicationId "com.example.pdfreader"
+        applicationId "com.reader.pdfreader"
         minSdk 21
         targetSdk 31
         versionCode 1
@@ -118,6 +120,14 @@ dependencies {
     implementation "com.github.bumptech.glide:okhttp3-integration:4.12.0"
     // logging
     implementation 'com.jakewharton.timber:timber:5.0.1'
+    // event bus
+    implementation "org.greenrobot:eventbus:3.3.1"
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.0.0'
     //
     implementation 'com.github.MTGLibs:CommonLibs:1.2.2'
+    implementation platform('com.google.firebase:firebase-bom:28.0.1')
+    implementation 'com.google.firebase:firebase-crashlytics'
+    implementation 'com.google.firebase:firebase-analytics'
+    implementation 'com.google.firebase:firebase-config'
+    implementation 'com.google.firebase:firebase-messaging'
 }

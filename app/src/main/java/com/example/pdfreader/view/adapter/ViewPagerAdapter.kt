@@ -7,6 +7,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.pdfreader.view.fragment.AllFileFragment
 import com.example.pdfreader.view.fragment.FavouriteFragment
 import com.example.pdfreader.view.fragment.RecentFragment
+import com.example.pdfreader.view.viewmodel.AppViewModel
 
 class ViewPagerAdapter(
     fm: FragmentManager,

@@ -3,10 +3,15 @@ package com.example.pdfreader.view.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.pdfreader.R
 import com.example.pdfreader.database.DataFile
-import com.example.pdfreader.databinding.LayoutItemHomeBinding
+import com.example.pdfreader.databinding.LayoutItemPdfBinding
+import com.example.pdfreader.utils.Const.PATTERN_FORMAT_TIME_HOME
 import com.example.pdfreader.view.callback.ICallbackAllFile
 import com.example.pdfreader.view.callback.TagAllFile
+import java.io.File
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 class AllfileAdapter(
     private val listData: ArrayList<DataFile>,
@@ -14,7 +19,7 @@ class AllfileAdapter(
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return AllfileViewHolder(
-            LayoutItemHomeBinding.inflate(
+            LayoutItemPdfBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
                 false
@@ -32,20 +37,33 @@ class AllfileAdapter(
         }
     }
 
-    inner class AllfileViewHolder(val binding: LayoutItemHomeBinding) :
+    inner class AllfileViewHolder(val binding: LayoutItemPdfBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(data: DataFile, position: Int) {
-            binding.tvTitle.text = data.id.toString()
+            binding.tvNameFile.text = File(data.path).name
+            val formatter = SimpleDateFormat(PATTERN_FORMAT_TIME_HOME, Locale.getDefault())
+            val dateString = formatter.format(File(data.path).lastModified())
+            binding.tvTimeFile.text = dateString
 
-            if(data.isFavourite==1){
-                binding.tvTitle.text = "Vinhh"
+            if (data.isFavourite == 1) {
+                binding.imgStar.setImageResource(R.drawable.ic_star)
+            } else {
+                binding.imgStar.setImageResource(R.drawable.ic_star_un_select)
             }
-            binding.ivFavourite.setOnClickListener {
-                callback.callbackALlFile(TagAllFile.ON_CLICK_FAVOURITE,data)
+
+            binding.imgStar.setOnClickListener {
+                if(data.isFavourite==0){
+                    data.isFavourite=1
+                    callback.callbackALlFile(TagAllFile.ON_CLICK_FAVOURITE, data)
+                }else{
+                    data.isFavourite=0
+                    callback.callbackALlFile(TagAllFile.ON_CLICK_FAVOURITE, data)
+                }
+                notifyItemChanged(position)
             }
 
             binding.root.setOnClickListener {
-                callback.callbackALlFile(TagAllFile.ON_CLICK_OPEN_FILE,data)
+                callback.callbackALlFile(TagAllFile.ON_CLICK_OPEN_FILE, data)
             }
         }
     }

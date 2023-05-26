@@ -22,22 +22,27 @@ class RecentFragment : BaseFragment<FragmentRecentBinding>(FragmentRecentBinding
     override fun initView() {
         adapter = RecentAdapter(listData, this)
         binding.rvRecent.adapter = adapter
+
+        binding.refreshLayout.setOnRefreshListener {
+            getData()
+            binding.refreshLayout.isRefreshing = false
+        }
     }
 
     override fun initObserver() {
         viewModel.state.observe(viewLifecycleOwner) {
             when (it.status) {
-                State.Status.GET_ALl_LOADING ->{
+                State.Status.GET_RECENT_LOADING ->{
 
                 }
-                State.Status.GET_ALl_SUCCESS ->{
+                State.Status.GET_RECENT_SUCCESS ->{
                     val data =it.data as ArrayList<DataFile>?
                     listData.clear()
                     data?.let { it1 -> listData.addAll(it1) }
                     adapter?.notifyDataSetChanged()
                 }
 
-                State.Status.GET_ALl_FAIL->{
+                State.Status.GET_RECENT_FAIL->{
 
                 }
             }

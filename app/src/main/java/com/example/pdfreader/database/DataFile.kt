@@ -11,7 +11,7 @@ data class DataFile(
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0,
     var path: String = "",
-    var isFavourite: Int = 1,
+    var isFavourite: Int = 0,
     var isRecentFile: Int = 0,
     var timeOpenRecent: Long = 0L,
     var timeClickFavourite: Long = 0L,

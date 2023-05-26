@@ -1,0 +1,69 @@
+{
+  "project_info": {
+    "project_number": "393471859140",
+    "project_id": "daymagic-e73cd",
+    "storage_bucket": "daymagic-e73cd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:393471859140:android:1eb129d0594a1110a4ec91",
+        "android_client_info": {
+          "package_name": "com.reader.pdfreader"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "393471859140-fgfsa4ouqtbpevokf54it7he2ko476pr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCpJ1UroE0lIVG332ECbdHUgE_kDCIDnk0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "393471859140-fgfsa4ouqtbpevokf54it7he2ko476pr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:393471859140:android:71d2bb7e7e87c511a4ec91",
+        "android_client_info": {
+          "package_name": "com.tool.magicapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "393471859140-fgfsa4ouqtbpevokf54it7he2ko476pr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCpJ1UroE0lIVG332ECbdHUgE_kDCIDnk0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "393471859140-fgfsa4ouqtbpevokf54it7he2ko476pr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      },
+      "admob_app_id": "ca-app-pub-3270179691816977~2546414937"
+    }
+  ],
+  "configuration_version": "1"
+}

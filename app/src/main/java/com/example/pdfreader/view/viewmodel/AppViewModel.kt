@@ -30,12 +30,12 @@ class AppViewModel @Inject constructor(private val repo: AppRepository) : ViewMo
 
     fun getDataRecent() {
         viewModelScope.launch {
-            _state.value = State.response(status = State.Status.GET_ALl_LOADING)
+            _state.value = State.response(status = State.Status.GET_RECENT_LOADING)
             repo.getDataRecent().collect {
                 if (it != null && it.isNotEmpty()) {
-                    _state.value = State.response(convertListRecent(it as ArrayList<DataFile>?), status = State.Status.GET_ALl_SUCCESS)
+                    _state.value = State.response(it, status = State.Status.GET_RECENT_SUCCESS)
                 } else {
-                    _state.value = State.response(data = null, status = State.Status.GET_ALl_FAIL)
+                    _state.value = State.response(data = null, status = State.Status.GET_RECENT_FAIL)
                 }
             }
         }
@@ -43,23 +43,23 @@ class AppViewModel @Inject constructor(private val repo: AppRepository) : ViewMo
 
     fun getDataFavoutite() {
         viewModelScope.launch() {
-            _state.value = State.response(status = State.Status.GET_ALl_LOADING)
+            _state.value = State.response(status = State.Status.GET_FAVOURITE_LOADING)
             repo.getDataFavoutite().collect {
                 if (it != null && it.isNotEmpty()) {
                     _state.value = State.response(
-                        data = convertListFavourite(it as ArrayList<DataFile>?),
-                        status = State.Status.GET_ALl_SUCCESS
+                        data = it,
+                        status = State.Status.GET_FAVOURITE_SUCCESS
                     )
                 } else {
-                    _state.value = State.response(data = null, status = State.Status.GET_ALl_FAIL)
+                    _state.value = State.response(data = null, status = State.Status.GET_FAVOURITE_FAIL)
                 }
             }
         }
     }
 
-    fun convertListFavourite(data: ArrayList<DataFile>?): ArrayList<DataFile> {
+    fun convertListFavourite(data: ArrayList<DataFile>): ArrayList<DataFile> {
         val dataFavourite = ArrayList<DataFile>()
-        data?.forEach {
+        data.forEach {
             if (it.isFavourite == 1) {
                 dataFavourite.add(it)
             }
@@ -87,6 +87,12 @@ class AppViewModel @Inject constructor(private val repo: AppRepository) : ViewMo
     fun addFile(data: DataFile) {
         viewModelScope.launch {
             repo.addFile(data)
+        }
+    }
+
+    fun deleteFile(data: DataFile) {
+        viewModelScope.launch {
+            repo.deleteFile(data)
         }
     }
 }

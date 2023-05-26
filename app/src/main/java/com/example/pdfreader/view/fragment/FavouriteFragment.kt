@@ -20,22 +20,27 @@ class FavouriteFragment : BaseFragment<FragmentFavouriteBinding>(FragmentFavouri
     override fun initView() {
         adapter = FavouriteAdapter(listData, this)
         binding.rvFavourite.adapter = adapter
+
+        binding.refreshLayout.setOnRefreshListener {
+            getData()
+            binding.refreshLayout.isRefreshing = false
+        }
     }
 
     override fun initObserver() {
         viewModel.state.observe(viewLifecycleOwner) {
             when (it.status) {
-                State.Status.GET_ALl_LOADING ->{
+                State.Status.GET_FAVOURITE_LOADING ->{
 
                 }
-                State.Status.GET_ALl_SUCCESS ->{
+                State.Status.GET_FAVOURITE_SUCCESS ->{
                     val data =it.data as ArrayList<DataFile>?
                     listData.clear()
                     data?.let { it1 -> listData.addAll(it1) }
                     adapter?.notifyDataSetChanged()
                 }
 
-                State.Status.GET_ALl_FAIL->{
+                State.Status.GET_FAVOURITE_FAIL->{
 
                 }
             }
